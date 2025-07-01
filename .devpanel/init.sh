@@ -36,14 +36,11 @@ fi
 echo "Install drush locally ..."
 composer require --dev drush/drush
 
-
-
 cd $WEB_ROOT && git submodule update --init --recursive
 
 # #Securing file permissions and ownership
 # #https://www.drupal.org/docs/security-in-drupal/securing-file-permissions-and-ownership
 [[ ! -d $STATIC_FILES_PATH ]] && sudo mkdir --mode 775 $STATIC_FILES_PATH || sudo chmod 775 -R $STATIC_FILES_PATH
-
 
 #== Drush Site Install
 if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show tables;") == '' ]]; then
@@ -56,7 +53,6 @@ fi
 
 #== Setup settings.php file
 sudo cp $APP_ROOT/.devpanel/drupal-settings.php $SETTINGS_FILES_PATH
-
 
 #== Generate hash salt
 echo 'Generate hash salt ...'

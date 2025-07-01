@@ -63,7 +63,7 @@ jobs:
         echo "INSTALL CUSTOM PACKAGE"
         docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && bash .devpanel/custom_package_installer.sh"
         echo "INSTALL DRUPAL"
-        docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && bash .devpanel/init.sh"
+        docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && bash .devpanel/re-config.sh"
         docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && ls -al"
         echo "DUMPS DATABASE + STATIC FILE" 
         docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && bash .devpanel/quickstart/create_quickstart.sh" 
