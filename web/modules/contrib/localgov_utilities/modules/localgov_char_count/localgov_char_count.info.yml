@@ -1,0 +1,13 @@
+name: 'LocalGov Character Count'
+type: module
+description: 'Adds character counting to title and summary fields,'
+package: LocalGov Drupal
+core_version_requirement: ^10 || ^11
+dependencies:
+  - textfield_counter:textfield_counter
+configure: localgov_char_count.character_counter_settings
+
+# Information added by Drupal.org packaging script on 2025-04-08
+version: '1.0.0-beta2'
+project: 'localgov_utilities'
+datestamp: 1744124873

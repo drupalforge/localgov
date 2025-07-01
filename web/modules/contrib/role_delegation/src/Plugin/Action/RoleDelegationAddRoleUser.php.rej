@@ -1,0 +1,11 @@
+--- src/Plugin/Action/RoleDelegationAddRoleUser.php
++++ src/Plugin/Action/RoleDelegationAddRoleUser.php
+@@ -50,7 +50,7 @@ class RoleDelegationAddRoleUser extends AddRoleUser {
+   /**
+    * {@inheritdoc}
+    */
+-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
++  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
+     $access = parent::access($object, $account, $return_as_object);
+ 
+     // If access == true, the user already has the administer users permission.

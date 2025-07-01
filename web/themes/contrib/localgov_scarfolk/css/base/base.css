@@ -1,0 +1,5 @@
+blockquote {
+  padding-inline-start: var(--spacing-largest);
+  border-color: var(--color-accent);
+  border-inline-start: var(--border-large);
+}

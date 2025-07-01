@@ -1,0 +1,66 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 3cea48b6-09ba-4609-b512-2f49853d0e6f
+  bundle: localgov_guides_overview
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Order a copy of a certificate'
+  created:
+    -
+      value: 1631267267
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  moderation_state:
+    -
+      value: published
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'Order a copy of a certificate | Drush Site-Install'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: "To order copies of a certificate you must give us enough information to find the original record. we are very busy at present and ordering copy certificates is taking much longer than usual.\_Please allow 20 working days from order to delivery. If you need any historic certificates you can order from\_The General Register Office. \_ Birth certificates To order a copy of a birth certificate we need to know:"
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://localgov.lndo.site/node/19'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  body:
+    -
+      value: "<p>To order copies of a certificate you must give us enough information to find the original record.</p>\r\n\r\n<p>we are very busy at present and ordering copy certificates is taking much longer than usual.&nbsp;Please allow 20 working days from order to delivery.<br />\r\n<br />\r\nIf you need any historic certificates you can order from&nbsp;<a href=\"https://www.gro.gov.uk/gro/content/certificates/login.asp\">The General Register Office</a>.<br />\r\n&nbsp;</p>\r\n\r\n<h2>Birth certificates</h2>\r\n\r\n<p>To order a copy of a birth certificate we need to know:</p>\r\n\r\n<ul>\r\n\t<li>full name at birth</li>\r\n\t<li>date of birth</li>\r\n\t<li>place of birth (hospital or other address)</li>\r\n\t<li>mother's full name (including maiden name if possible)</li>\r\n\t<li>father's full name (if possible)</li>\r\n</ul>\r\n"
+      format: wysiwyg
+      summary: ''
+  localgov_guides_list_format:
+    -
+      value: unordered
+  localgov_guides_section_title:
+    -
+      value: 'Information to provide'

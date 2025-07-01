@@ -1,0 +1,27 @@
+--- config/schema/leaflet.schema.yml
++++ config/schema/leaflet.schema.yml
+@@ -293,15 +293,21 @@ field.formatter.settings.leaflet_formatter_default:
+       type: mapping
+       label: 'Leaflet Popup'
+       mapping:
++        value:
++          type: string
++          label: 'Value'
++        options:
++          type: text
++          label: 'Popup Options'
++        view_mode:
++          type: string
++          label: 'View mode'
+         control:
+           type: string
+           label: 'Enable'
+         content:
+           type: text
+           label: 'Popup content'
+-        options:
+-          type: text
+-          label: 'Popup Options'
+     map_position:
+       type: mapping
+       label: 'Map Position'

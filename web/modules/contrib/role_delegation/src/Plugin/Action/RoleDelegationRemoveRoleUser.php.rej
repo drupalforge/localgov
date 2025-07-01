@@ -1,0 +1,11 @@
+--- src/Plugin/Action/RoleDelegationRemoveRoleUser.php
++++ src/Plugin/Action/RoleDelegationRemoveRoleUser.php
+@@ -50,7 +50,7 @@ class RoleDelegationRemoveRoleUser extends RemoveRoleUser {
+   /**
+    * {@inheritdoc}
+    */
+-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
++  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
+     $access = parent::access($object, $account, $return_as_object);
+ 
+     // If access == true, the user already has the administer users permission.

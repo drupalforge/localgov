@@ -1,0 +1,123 @@
+<?php
+
+/**
+ * @file
+ * LocalGovDrupal Core module file.
+ */
+
+use Drupal\Core\Installer\InstallerKernel;
+use Drupal\node\NodeInterface;
+use Drupal\taxonomy\TermInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function localgov_core_theme($existing, $type, $theme, $path) {
+  return [
+    'localgov_page_header_block' => [
+      'variables' => [
+        'title' => '',
+        'subtitle' => NULL,
+        'lede' => NULL,
+        'entity' => NULL,
+      ],
+      'render element' => 'block',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function localgov_core_library_info_alter(&$libraries, $extension): void {
+
+  if ($extension === 'core') {
+    $remove_css = (bool) theme_get_setting('localgov_base_remove_css');
+    $remove_js = (bool) theme_get_setting('localgov_base_remove_js');
+    foreach ($libraries as $name => $library) {
+      if (str_starts_with($name, 'components.localgov_base--')) {
+        if ($remove_css) {
+          $libraries[$name]['css'] = [];
+        }
+        if ($remove_js) {
+          $libraries[$name]['js'] = [];
+        }
+      }
+    }
+  }
+
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function localgov_core_theme_suggestions_localgov_page_header_block(array $variables): array {
+  $suggestions = [];
+  $entity = $variables['entity'];
+
+  if ($entity instanceof NodeInterface || $entity instanceof TermInterface) {
+    $id = $entity->id();
+    $type = $entity->getEntityTypeId();
+    $bundle = $entity->bundle();
+    $suggestions[] = 'localgov_page_header_block__' . $bundle;
+    $suggestions[] = 'localgov_page_header_block__' . $type . '__' . $id;
+    $suggestions[] = 'localgov_page_header_block__' . $type;
+  }
+
+  return $suggestions;
+}
+
+/**
+ * Implements hook_template_preprocess_default_variables_alter().
+ */
+function localgov_core_template_preprocess_default_variables_alter(&$variables): void {
+  $remove_css = (bool) theme_get_setting('localgov_base_remove_css');
+  $remove_js = (bool) theme_get_setting('localgov_base_remove_js');
+
+  if ($remove_css) {
+    $variables['localgov_base_remove_css'] = TRUE;
+  }
+  if ($remove_js) {
+    $variables['localgov_base_remove_js'] = TRUE;
+  }
+}
+
+/**
+ * Implements hook_modules_installed().
+ *
+ * This installs default blocks for modules when they're enabled on an existing
+ * site. (IE, not in the installer.)
+ */
+function localgov_core_modules_installed(array $modules, bool $is_syncing): void {
+
+  if ($is_syncing) {
+    return;
+  }
+
+  // If we're in the installer, do nothing.
+  if (InstallerKernel::installationAttempted()) {
+    return;
+  }
+
+  /** @var \Drupal\localgov_core\Service\DefaultBlockInstaller $defaultBlockInstaller */
+  $defaultBlockInstaller = \Drupal::service('localgov_core.default_block_installer');
+  $defaultBlockInstaller->install($modules);
+}
+
+/**
+ * Implements hook_localgov_post_install().
+ *
+ * This installs default blocks as part of the installation of a new LocalGov
+ * site. All LocalGov modules (IE ones whose name starts with 'localgov_') will
+ * have default blocks that they define installed.
+ */
+function localgov_core_localgov_post_install(): void {
+  $moduleList = \Drupal::moduleHandler()->getModuleList();
+  $localgovModules = array_filter(array_keys($moduleList), function ($moduleName) {
+    return str_starts_with($moduleName, 'localgov_');
+  });
+
+  /** @var \Drupal\localgov_core\Service\DefaultBlockInstaller $defaultBlockInstaller */
+  $defaultBlockInstaller = \Drupal::service('localgov_core.default_block_installer');
+  $defaultBlockInstaller->install($localgovModules);
+}

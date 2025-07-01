@@ -1,0 +1,18 @@
+--- modules/leaflet_views/config/schema/leaflet_views.style.schema.yml
++++ modules/leaflet_views/config/schema/leaflet_views.style.schema.yml
+@@ -39,6 +39,15 @@ views.style.leaflet_map:
+         options:
+           type: text
+           label: 'Popup Options'
++        view_mode:
++          type: string
++          label: 'View mode'
++        control:
++          type: string
++          label: 'Enable'
++        content:
++          type: text
++          label: 'Popup content'
+     view_mode:
+       type: string
+       label: 'View mode'

@@ -1,0 +1,11 @@
+--- src/Plugin/views/field/RoleDelegationUserBulkForm.php
++++ src/Plugin/views/field/RoleDelegationUserBulkForm.php
+@@ -56,7 +56,7 @@ class RoleDelegationUserBulkForm extends UserBulkForm {
+   /**
+    * {@inheritdoc}
+    */
+-  public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
++  public function init(ViewExecutable $view, DisplayPluginBase $display, ?array &$options = NULL) {
+     parent::init($view, $display, $options);
+ 
+     $entity_type = $this->getEntityType();

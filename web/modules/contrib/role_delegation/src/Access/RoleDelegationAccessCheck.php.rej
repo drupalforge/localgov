@@ -1,0 +1,11 @@
+--- src/Access/RoleDelegationAccessCheck.php
++++ src/Access/RoleDelegationAccessCheck.php
+@@ -49,7 +49,7 @@ class RoleDelegationAccessCheck implements AccessInterface {
+    * @return \Drupal\Core\Access\AccessResultInterface
+    *   The access result.
+    */
+-  public function access(AccountInterface $account = NULL): AccessResultInterface {
++  public function access(?AccountInterface $account = NULL): AccessResultInterface {
+     if ($account === NULL) {
+       $account = $this->currentUser;
+     }

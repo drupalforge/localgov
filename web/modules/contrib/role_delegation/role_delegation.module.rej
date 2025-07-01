@@ -1,0 +1,11 @@
+--- role_delegation.module
++++ role_delegation.module
+@@ -201,7 +201,7 @@ function role_delegation_entity_base_field_info(EntityTypeInterface $entity_type
+ /**
+  * Implements hook_entity_field_access().
+  */
+-function role_delegation_entity_field_access(string $operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL) {
++function role_delegation_entity_field_access(string $operation, FieldDefinitionInterface $field_definition, AccountInterface $account, ?FieldItemListInterface $items = NULL) {
+   if ($operation === 'edit' && $field_definition->getName() === 'role_change' && $field_definition->getTargetEntityTypeId() === 'user') {
+     // Deny access if the user has access to the normal roles field.
+     if ($account->hasPermission('administer permissions')) {
