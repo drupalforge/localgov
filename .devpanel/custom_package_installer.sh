@@ -9,10 +9,16 @@
 #
 # ----------------------------------------------------------------------
 
-# Install APT packages.
-if ! command -v npm >/dev/null 2>&1; then
-  sudo apt-get update
-  sudo apt-get install -y jq nano npm
+sudo apt-get update
+sudo apt-get install -y nano
+
+# Install VSCode Extensions
+if [[ -n "$DP_VSCODE_EXTENSIONS" ]]; then
+    sudo chown -R www:www $APP_ROOT/.vscode/extensions/
+    IFS=','
+    for value in $DP_VSCODE_EXTENSIONS; do
+        code-server --install-extension $value --user-data-dir=$APP_ROOT/.vscode
+    done
 fi
 
 PECL_UPDATED=false
