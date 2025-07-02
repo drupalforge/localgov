@@ -68,6 +68,7 @@ echo
 if [ -z "$(drush status --field=db-status)" ]; then
   echo 'Install LocalGov.'
   time drush -n si localgov
+  time drush -n en localgov_demo
 
   echo
   echo 'Tell Automatic Updates about patches.'
