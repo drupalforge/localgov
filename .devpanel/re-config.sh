@@ -17,7 +17,7 @@
 
 #== If webRoot has not been difined, we will set appRoot to webRoot
 if [[ ! -n "$WEB_ROOT" ]]; then
-  export WEB_ROOT="$APP_ROOT/web"
+  export WEB_ROOT=$APP_ROOT
 fi
 
 STATIC_FILES_PATH="$WEB_ROOT/sites/default/files/"
@@ -54,18 +54,9 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
   fi
 
   #== Import mysql files
-  if [[ -f "$APP_ROOT/.devpanel/dumps/db.sql.tgz" ]]; then
+  if [[ -f "$APP_ROOT/.devpanel/dumps/db.sql.gz" ]]; then
     echo  'Import mysql file ...'
-    SQLFILE=$(tar tzf $APP_ROOT/.devpanel/dumps/db.sql.tgz)
-    tar xzf "$APP_ROOT/.devpanel/dumps/db.sql.tgz" -C /tmp/
-    mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < /tmp/$SQLFILE
-    rm /tmp/$SQLFILE
+    drush sqlq --file="$APP_ROOT/.devpanel/dumps/db.sql.gz"
+    sudo rm -rf $APP_ROOT/.devpanel/dumps/db.sql.gz
   fi
 fi
-
-#== Update permission
-echo 'Update permission ....'
-drush cr
-sudo chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP $STATIC_FILES_PATH
-sudo chown www:www $SETTINGS_FILES_PATH
-sudo chmod 644 $SETTINGS_FILES_PATH
