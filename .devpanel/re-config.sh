@@ -54,7 +54,7 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
   fi
 
   #== Import mysql files
-  if [[ -f "$APP_ROOT/.devpanel/dumps/db.sql.gz" ]]; then
+  if [[ -f "$APP_ROOT/.devpanel/dumps/db.sql.tgz" ]]; then
     echo  'Import mysql file ...'
     SQLFILE=$(tar tzf $APP_ROOT/.devpanel/dumps/db.sql.tgz)
     tar xzf "$APP_ROOT/.devpanel/dumps/db.sql.tgz" -C /tmp/
