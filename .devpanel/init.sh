@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+if [ -n "${DEBUG_SCRIPT:-}" ]; then
+  set -x
+fi
 set -eu -o pipefail
 cd $APP_ROOT
 
@@ -11,18 +14,32 @@ export COMPOSER_NO_AUDIT=1
 # For faster performance, don't install dev dependencies.
 export COMPOSER_NO_DEV=1
 
+# Install VSCode Extensions
+if [ -n "${DP_VSCODE_EXTENSIONS:-}" ]; then
+  IFS=','
+  for value in $DP_VSCODE_EXTENSIONS; do
+    time code-server --install-extension $value
+  done
+fi
+
 #== Remove root-owned files.
 echo
 echo Remove root-owned files.
 time sudo rm -rf lost+found
 
 #== Composer install.
-if [ ! -f composer.json ]; then
-  echo
+echo
+if [ -f composer.json ]; then
+  if composer show --locked cweagans/composer-patches ^2 &> /dev/null; then
+    echo 'Update patches.lock.json.'
+    time composer prl
+    echo
+  fi
+else
   echo 'Generate composer.json.'
   time source .devpanel/composer_setup.sh
+  echo
 fi
-echo
 time composer -n update --no-dev --no-progress
 
 #== Create the private files directory.
@@ -47,15 +64,29 @@ if [ ! -f .devpanel/salt.txt ]; then
 fi
 
 #== Install Drupal.
-if [ -z "$(mysql -h $DB_HOST -P $DB_PORT -u $DB_USER -p$DB_PASSWORD $DB_NAME -e 'show tables')" ]; then
-  time drush -n si
+echo
+if [ -z "$(drush status --field=db-status)" ]; then
+  echo 'Install LocalGov.'
+  time drush -n si localgov
 
   echo
   echo 'Tell Automatic Updates about patches.'
-  time drush -n cset --input-format=yaml package_manager.settings additional_known_files_in_project_root '["patches.json", "patches.lock.json"]'
+  drush -n cset --input-format=yaml package_manager.settings additional_trusted_composer_plugins '["cweagans/composer-patches"]'
+  drush -n cset --input-format=yaml package_manager.settings additional_known_files_in_project_root '["patches.json", "patches.lock.json"]'
+  time drush ev '\Drupal::moduleHandler()->invoke("automatic_updates", "modules_installed", [[], FALSE])'
 else
-  drush -n updb
+  echo 'Update database.'
+  time drush -n updb
 fi
+
+#== Warm up caches.
+echo
+echo 'Run cron.'
+time drush cron
+echo
+echo 'Populate caches.'
+time drush cache:warm &> /dev/null || :
+time .devpanel/warm
 
 #== Finish measuring script time.
 INIT_DURATION=$SECONDS
