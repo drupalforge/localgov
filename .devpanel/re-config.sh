@@ -60,3 +60,10 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
     sudo rm -rf $APP_ROOT/.devpanel/dumps/db.sql.gz
   fi
 fi
+
+#== Update permission
+echo 'Update permission ....'
+drush cr
+sudo chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP $STATIC_FILES_PATH
+sudo chown www:www $SETTINGS_FILES_PATH
+sudo chmod 644 $SETTINGS_FILES_PATH
