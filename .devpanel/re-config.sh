@@ -17,7 +17,7 @@
 
 #== If webRoot has not been difined, we will set appRoot to webRoot
 if [[ ! -n "$WEB_ROOT" ]]; then
-  export WEB_ROOT=$APP_ROOT
+  export WEB_ROOT="$APP_ROOT/web"
 fi
 
 STATIC_FILES_PATH="$WEB_ROOT/sites/default/files/"
