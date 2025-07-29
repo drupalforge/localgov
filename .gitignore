@@ -19,3 +19,4 @@
 /recipes/
 /vendor/
 /web/
+/.ddev/.env

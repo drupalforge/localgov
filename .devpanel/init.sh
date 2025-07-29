@@ -40,6 +40,12 @@ else
   time source .devpanel/composer_setup.sh
   echo
 fi
+#== Install extra composer packages.
+if [ -f .devpanel/composer_extra.sh ]; then
+  echo 'Install extra composer packages.'
+  time source .devpanel/composer_extra.sh
+  echo
+fi
 time composer -n update --no-dev --no-progress
 
 #== Create the private files directory.
