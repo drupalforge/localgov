@@ -8,6 +8,8 @@ install:
   - ai_ckeditor
   - ai_chatbot
   - ai_translate
+  - field_validation
+  - ai_validation
 config:
   actions:
     editor.editor.wysiwyg:
