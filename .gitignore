@@ -16,7 +16,6 @@
 /phpunit.xml.dist
 /private/
 /README_FRONTEND_TOOLING.md
-/recipes/
 /vendor/
 /web/
 /.ddev/.env
