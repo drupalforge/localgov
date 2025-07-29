@@ -9,7 +9,7 @@ install:
   - ai_chatbot
   - ai_translate
   - field_validation
-  - ai_validation
+  - ai_validations
 config:
   actions:
     editor.editor.wysiwyg:
