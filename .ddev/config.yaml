@@ -1,4 +1,4 @@
-name: starter-template
+name: localgov-ai-new
 type: drupal11
 docroot: web
 php_version: "8.3"
@@ -26,7 +26,7 @@ web_environment:
     - DB_USER=db
     - DB_PASSWORD=db
     - DB_NAME=db
-    - DP_APP_ID=localgov
+    - DP_APP_ID=localgov-ai-new
     - DB_DRIVER=mysql
 corepack_enable: false
 ddev_version_constraint: '>=1.24.0'

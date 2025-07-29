@@ -75,6 +75,9 @@ if [ -z "$(drush status --field=db-status)" ]; then
   drush -n cset --input-format=yaml package_manager.settings additional_trusted_composer_plugins '["cweagans/composer-patches"]'
   drush -n cset --input-format=yaml package_manager.settings additional_known_files_in_project_root '["patches.json", "patches.lock.json"]'
   time drush ev '\Drupal::moduleHandler()->invoke("automatic_updates", "modules_installed", [[], FALSE])'
+
+    #== Setup AI if its the first start.
+  source ./.devpanel/setup-ai.sh
 else
   echo 'Update database.'
   time drush -n updb
