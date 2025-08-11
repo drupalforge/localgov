@@ -2,8 +2,8 @@
 set -eu -o pipefail
 cd $APP_ROOT
 
-# Create required composer.json and composer.lock files
-composer create-project -n --no-install ${PROJECT:=localgovdrupal/localgov-project}
+# Create required composer.json and composer.lock files.
+composer create-project --no-install ${PROJECT:=localgovdrupal/localgov-project}
 cp -r "${PROJECT#*/}"/* ./
 rm -rf "${PROJECT#*/}" patches.lock.json
 
