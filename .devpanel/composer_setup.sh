@@ -4,8 +4,8 @@ cd $APP_ROOT
 
 # Create required composer.json and composer.lock files.
 composer create-project --no-install ${PROJECT:=localgovdrupal/localgov-project}
-cp -r "${PROJECT#*/}"/* ./
-rm -rf "${PROJECT#*/}" patches.lock.json
+cp -r ${PROJECT#*/}/* ./
+rm -rf ${PROJECT#*/}
 
 # Patch settings.php.
 composer config scripts.post-drupal-scaffold-cmd \
