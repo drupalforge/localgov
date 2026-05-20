@@ -9,8 +9,9 @@ LOG_FILE="logs/init-$(date +%F-%T).log"
 exec > >(tee $LOG_FILE) 2>&1
 
 TIMEFORMAT=%lR
-# For faster performance, don't audit dependencies automatically.
+# Install regardless of security audit.
 export COMPOSER_NO_AUDIT=1
+export COMPOSER_NO_BLOCKING=1
 # For faster performance, don't install dev dependencies.
 export COMPOSER_NO_DEV=1
 
