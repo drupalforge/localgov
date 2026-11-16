@@ -7,14 +7,14 @@
 /composer.json
 /composer.lock
 /config/
+/LICENSE*
 /logs/*
-/patches.lock.json
+!/logs/.gitkeep
 /phpcs.xml.dist
 /phpstan-baseline.php
 /phpstan.neon
 /phpunit.xml.dist
 /private/
-/README_FRONTEND_TOOLING.md
-/recipes/
+/README*
 /vendor/
 /web/

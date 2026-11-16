@@ -10,3 +10,5 @@ rm -rf ${PROJECT#*/}
 # Patch settings.php.
 composer config scripts.post-drupal-scaffold-cmd \
     'cd web/sites/default && test -z "$(grep '\''include \$devpanel_settings;'\'' settings.php)" && patch -Np1 -r /dev/null < $APP_ROOT/.devpanel/drupal-settings.patch || :'
+
+composer config extra.patches-file patches.json

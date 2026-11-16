@@ -1,0 +1,7 @@
+{
+    "patches": {
+        "drush/drush": {
+            "https://github.com/drush-ops/drush/issues/6665": "https://github.com/drush-ops/drush/commit/244ebd6e32124cddd9adaaad836462373365a819.patch"
+        }
+    }
+}

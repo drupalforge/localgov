@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export PATH="$APP_ROOT/vendor/bin:$PATH"
 if [ -n "${DEBUG_SCRIPT:-}" ]; then
   set -x
 fi
@@ -12,6 +13,9 @@ TIMEFORMAT=%lR
 # Install regardless of security audit.
 export COMPOSER_NO_AUDIT=1
 export COMPOSER_NO_BLOCKING=1
+# Keep deprecated var for compatibility with Composer versions where
+# COMPOSER_NO_BLOCKING/--no-blocking is not supported yet.
+export COMPOSER_NO_SECURITY_BLOCKING=1
 # For faster performance, don't install dev dependencies.
 export COMPOSER_NO_DEV=1
 
@@ -33,20 +37,27 @@ else
   time source .devpanel/composer_setup.sh
   echo
 fi
-time composer -n update --no-dev --no-progress
+time composer -n update --no-progress
 
 #== Create the private files directory.
 if [ ! -d private ]; then
   echo
   echo 'Create the private files directory.'
-  time mkdir private
+  time mkdir -m 2775 private
 fi
 
 #== Create the config sync directory.
 if [ ! -d config/sync ]; then
   echo
   echo 'Create the config sync directory.'
-  time mkdir -p config/sync
+  time mkdir -pm 2775 config/sync
+fi
+
+#== Create the public files directory.
+if [ ! -d web/sites/default/files ]; then
+  echo
+  echo 'Create the public files directory.'
+  mkdir -pm 2775 web/sites/default/files
 fi
 
 #== Install Drupal.
@@ -55,11 +66,6 @@ if [ -z "$(drush status --field=db-status)" ]; then
   echo 'Install LocalGov.'
   time drush -n si localgov
   time drush -n en localgov_demo
-
-  echo
-  echo 'Tell Automatic Updates about patches.'
-  drush -n cset --input-format=yaml package_manager.settings additional_trusted_composer_plugins '["cweagans/composer-patches"]'
-  time drush ev '\Drupal::moduleHandler()->invoke("automatic_updates", "modules_installed", [[], FALSE])'
 else
   echo 'Update database.'
   time drush -n updb
@@ -73,6 +79,13 @@ echo
 echo 'Populate caches.'
 time drush cache:warm &> /dev/null || :
 time .devpanel/warm
+time .devpanel/warm /user/login
+
+#== Fix ownership for strict permissions.
+echo
+echo 'Fix ownership for strict permissions.'
+time sudo chmod 2775 -R web/sites/default/files private config/sync
+time sudo chown -R ${APACHE_RUN_USER:=www-data}:${APACHE_RUN_GROUP:=www-data} web/sites/default/files private config/sync
 
 #== Finish measuring script time.
 INIT_DURATION=$SECONDS

@@ -29,4 +29,5 @@ web_environment:
     - DB_NAME=db
     - DP_APP_ID=localgov
     - DB_DRIVER=mysql
+    - COMPOSER_HOME=/home/www/.config/composer
 corepack_enable: false
